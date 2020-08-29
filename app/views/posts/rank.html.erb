@@ -1,0 +1,20 @@
+<%= @fishname %>のサイズランキング
+
+<% @fish.each.with_index(1) do |t,i| %>
+  <div class="post">
+  第
+  <%= i%>
+  位
+      <%= t.size %>
+      <%= t.user.name %>
+      <%= t.body %>
+      (♡<%= t.liked_users.count %>)
+      <%= link_to "詳細へ", post_path(t.id) %>
+<% end %>
+
+<%=  %>
+<%=  %>
+<%=  %>
+<%=  %>
+<%=  %>
+<%=  %>

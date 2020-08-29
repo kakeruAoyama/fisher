@@ -1,0 +1,74 @@
+<h2>詳細</h2>
+
+<div class="post">
+  <p><%= @post.user.name %></p>
+  <h3>釣果日時</h3>
+  <h3><%= @post.date %></h3>
+  <h3><%= @post.fishname %><%= @post.size %></h3>
+  <h3><%= @post.body %></h3>
+  <%= image_tag @post.image_url, size: "250x200" if @post.image?%>
+  
+  <h3>いいね件数: <%= @post.likes.count %></h3>
+  <% if current_user.already_liked?(@post) %>
+    <%= button_to 'いいねを取り消す', post_like_path(@post), method: :delete %>
+  <% else %>
+    <%= button_to 'いいね', post_likes_path(@post) %>
+  <% end %>
+
+</div>
+
+<h2>いいねしたユーザー</h2>
+<% @post.liked_users.each do |user| %>
+  <li><%= user.name %></li>
+<% end %>
+
+<div class="comment-wrapper">
+  <p>コメント一覧</p>
+  <% @comments.each do |c| %>
+    <div>
+      <%= c.user.email unless c.user.blank? %>
+      <br>
+      <%= c.comment %>
+    </div>
+      <br>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <%= form_with(model: [@post, @comment], local: true) do |f| %>
+      <%= f.text_area :comment%>
+      <%= button_tag type: "submit" do %>
+        <i class="far fa-comments"></i> コメントする
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<br>
+<h3>釣果場所</h3>
+<div id='map'></div>
+<style>
+#map {
+  height: 600px;
+  width: 600px;
+}
+</style>
+
+<script>
+function initMap() {
+  const myLatLng = { lat: <%= @post.latitude %>, lng: <%= @post.longitude %> };
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 15,
+    center: myLatLng
+  });
+  new google.maps.Marker({
+    position: myLatLng,
+    map,
+    title: "Hot spot"
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy3YhuPLmGg5D09Hyh64HrC1Yv1y6tUUc&callback=initMap" async defer></script>
+
+
+<%= link_to "編集する", edit_post_path(@post.id) %>
+<%= link_to "post一覧に戻る", posts_path %>

@@ -1,0 +1,79 @@
+<h1>マイページ</h1>
+<p>名前 : <%= @user.name %></p>
+<p>メールアドレス : <%= @user.email %></p>
+<p>プロフィール : <%= @user.profile %></p>
+
+<% if current_user.id == @user.id %>
+  <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+
+<p>これまでの釣果</p>
+<% @user.posts.each do |t| %>
+  <br>
+  <%= t.fishname %>
+  <%= t.size %>
+  <%= t.body %>
+  <%= link_to "詳細へ", post_path(t.id) %>
+<% end %>
+<br>
+<%= link_to "投稿一覧に戻る", posts_path %>
+
+<h2>個人釣果状況</h2>
+
+<div id='map'></div>
+
+<style>
+#map {
+  height: 600px;
+  width: 600px;
+}
+</style>
+
+<!-- js部分 -->
+<script>
+    function initMap() {
+
+      //初期表示位置
+      var latlng = new google.maps.LatLng(36.30, 139.5);
+      //デザイン
+      var styles = [
+           {
+            stylers: [
+             { "saturation": 0 },
+             { "lightness": 0 }
+            ]
+           }
+          ];
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          styles: styles,
+          center: latlng
+      });
+      var transitLayer = new google.maps.TransitLayer();
+      transitLayer.setMap(map);
+
+      //複数マーカー ここから
+      <% @user.posts.each do |post|%>
+        ( function() { 
+          var markerLatLng = new google.maps.LatLng({lat: <%= post.latitude %>, lng: <%= post.longitude %>}); // 緯度経度のデータ作成
+          var marker = new google.maps.Marker({ 
+            position: markerLatLng, 
+            map: map 
+          });
+    
+          var infowindow = new google.maps.InfoWindow({
+            position: markerLatLng,
+            content: "<%= post.fishname %><br><%= post.date %>"
+          })
+    
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+       })();
+      <% end %>
+      //複数マーカー ここまで  
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy3YhuPLmGg5D09Hyh64HrC1Yv1y6tUUc&callback=initMap" async defer></script>

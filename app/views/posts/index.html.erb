@@ -1,0 +1,109 @@
+<%= stylesheet_link_tag 'index', :media => "all" %>
+<%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+<h1>釣果一覧</h1>
+<h3>投稿を検索</h3>
+ <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+   <%= text_field_tag :search %>
+   <%= submit_tag '検索する'  %>
+<% end %>
+<%= link_to "新規投稿へ", new_post_path %>
+<%= link_to "マイページへ", user_path(current_user.id) %>
+<br>
+<br>いいねランキング
+<% @all_ranks.each.with_index(1) do |post, i| %>
+  第
+  <%= i%>
+  位
+  <%= post.user.name %>
+  <%= post.fishname %>
+  <%= post.body %>
+<% end %>
+<br>サイズランキング
+魚の名前
+<% @fishname.each do |p| %>
+  <%= link_to p.fishname, post_rank_path(p.fishname),class:"btn btn-primary" %>
+ 
+<% end %>
+<%= page_entries_info @posts %>
+<div class="posts-container">
+  <% @posts.each do |t| %>
+    <div class="tweet">
+        <div class="main-box">
+        <div class="left-container"><h5>釣果日時</h5><%= t.date %><h3><%= t.fishname %></h3><%= t.body %><br><%= image_tag t.image_url, size: "250x200" if t.image? %></div>
+        <div class=right-container>
+      <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+      <% if user_signed_in? && current_user.id == t.user_id %> 
+      <%= t.body %>
+      (♡<%= t.liked_users.count %>)
+      <%= link_to "詳細へ", post_path(t.id) %>  
+      <%= link_to "編集する", edit_post_path(t.id) %>
+      <%= button_to "削除する", post_path(t.id), method: :delete %>
+      <% end %> 
+    </div>
+    </div>
+        <p class="time"><%= t.created_at %></p>
+    </div>
+  <% end %>
+</div>
+<%= paginate @posts %>
+
+<h2>全国釣果状況</h2>
+
+
+<div id='map'></div>
+
+<style>
+#map {
+  height: 600px;
+  width: 600px;
+}
+</style>
+
+<!-- js部分 -->
+<script>
+    function initMap() {
+
+      //初期表示位置
+      var latlng = new google.maps.LatLng(36.30, 139.5);
+      //デザイン
+      var styles = [
+           {
+            stylers: [
+             { "saturation": 0 },
+             { "lightness": 0 }
+            ]
+           }
+          ];
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          styles: styles,
+          center: latlng
+      });
+      var transitLayer = new google.maps.TransitLayer();
+      transitLayer.setMap(map);
+
+      //複数マーカー ここから
+      <% @posts.each do |post|%>
+        ( function() { 
+          var markerLatLng = new google.maps.LatLng({lat: <%= post.latitude %>, lng: <%= post.longitude %>}); // 緯度経度のデータ作成
+          var marker = new google.maps.Marker({ 
+            position: markerLatLng, 
+            map: map 
+          });
+    
+          var infowindow = new google.maps.InfoWindow({
+            position: markerLatLng,
+            content: "<%= post.fishname %><br><%= post.date %>"
+          })
+    
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+       })();
+      <% end %>
+      //複数マーカー ここまで  
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy3YhuPLmGg5D09Hyh64HrC1Yv1y6tUUc&callback=initMap" async defer></script>

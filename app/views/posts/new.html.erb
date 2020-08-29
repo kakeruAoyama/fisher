@@ -1,0 +1,88 @@
+<%= stylesheet_link_tag 'new', :media => "all" %>
+
+<div class="post-container">
+    <p class="title">投稿フォーム</p>
+    <%= form_for(@post, :url => { controller:'posts', action:'create'})do |f| %>
+    　　<%= f.label :魚の名前 %>
+        <br>
+        <%= f.text_field :fishname,size: 140%>
+        <br>
+        <%= f.label :魚のサイズ %>
+        <br>
+        <%= f.text_field :size,size: 140%>
+        <br>
+        <%= f.label :釣果日時 %>
+        <br>
+        <%= f.datetime_select :date,{:use_month_numbers => true} %>
+        <br>
+        <%= f.label :投稿内容 %>
+        <br>
+        <%= f.text_field :body,size: 140%>
+        <br>
+        <%= f.label :緯度 %>
+        <br>
+        <%= f.text_field :latitude,size: 140, id: :latitude%>
+        <br>
+        <%= f.label :経度 %>
+        <br>
+        <%= f.text_field :longitude,size: 140, id: :longitude%>
+        <br>
+        <div class="field">
+        <%= f.label :image %>
+        <%= f.file_field :image %>
+        </div>
+    <%= f.submit "送信"%>
+    <br>
+    <% end %>
+</div>
+
+<h2>gmap</h2>
+
+<input id="address" type="textbox" value="GeekSalon">
+<input type="button" value="Encode" onclick="codeAddress()">
+<!-- 下の1行を追加 -->
+<div id="display">何かが表示される、、、、！</div>
+
+<div id='map'></div>
+
+<style>
+#map {
+  height: 600px;
+  width: 600px;
+}
+</style>
+
+<script type="text/javascript">
+// ページ読み込み完了時に実行する関数
+function initMap() {
+
+	// 初期位置
+	const okayamaTheLegend = new google.maps.LatLng(33.605208, 130.398197);
+
+// マップ表示
+	const okayamap = new google.maps.Map(document.getElementById("map"), {
+		center: okayamaTheLegend,
+		zoom:13,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+
+	// ドラッグできるマーカーを表示
+	const marker = new google.maps.Marker({
+		position: okayamaTheLegend,
+		title: "Hot Spot",
+		draggable: true	// ドラッグ可能にする
+	});
+	marker.setMap(okayamap)	;
+
+	// マーカーのドロップ（ドラッグ終了）時のイベント
+	google.maps.event.addListener( marker, 'dragend', function(ev){
+		// イベントの引数evの、プロパティ.latLngが緯度経度。
+		document.getElementById('latitude').value = ev.latLng.lat();
+		document.getElementById('longitude').value = ev.latLng.lng();
+	});
+}
+
+// ONLOADイベントにセット
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy3YhuPLmGg5D09Hyh64HrC1Yv1y6tUUc&callback=initMap" async defer></script>
