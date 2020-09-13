@@ -38,7 +38,7 @@
         <div class="left-container"><%= image_tag t.image_url, size: "250x200" if t.image? %></div>
          <div class="center-container">
          <h4>釣り人：<a href="/users/<%= t.user.id %>"><%= t.user.name %></a></h4>
-        <h4>釣れた場所:<%= t.basyo %></h4><h4>釣果日時:<%= t.date %></h4><h4>魚の名前:<%= t.fishname %></h4><h4>ひとこと:<%= t.body %></h4><%= link_to "詳細へ", post_path(t.id),class:"btn btn-warning" %><br>
+        <h4>釣れた場所:<%= t.place %></h4><h4>釣果日時:<%= t.date %></h4><h4>魚の名前:<%= t.fishname %></h4><h4>ひとこと:<%= t.body %></h4><%= link_to "詳細へ", post_path(t.id),class:"btn btn-warning" %><br>
          </div>
         <div class=right-container>
       <% if user_signed_in? && current_user.id == t.user_id %> 
