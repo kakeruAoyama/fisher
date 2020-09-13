@@ -44,6 +44,10 @@ ActiveRecord::Schema.define(version: 2020_08_31_100726) do
     t.string "name"
     t.string "place"
     t.integer "postcode"
+    t.integer "prefecture_code"
+    t.string "address_city"
+    t.string "address_street"
+    t.string "address_building"
     t.datetime "date"
     t.string "basyo"
   end

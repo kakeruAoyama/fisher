@@ -37473,3 +37473,385 @@ Processing by PostsController#show as HTML
 Completed 200 OK in 216ms (Views: 201.9ms | ActiveRecord: 4.7ms | Allocations: 32288)
 
 
+  [1m[35m (2.2ms)[0m  [1m[35mSET NAMES utf8mb4,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (10.6ms)[0m  [1m[35mCREATE DATABASE `fisher_development` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8mb4,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE DATABASE `fisher_test` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8mb4,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (194.6ms)[0m  [1m[35mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL PRIMARY KEY)[0m
+  [1m[35m (50.6ms)[0m  [1m[35mCREATE TABLE `ar_internal_metadata` (`key` varchar(255) NOT NULL PRIMARY KEY, `value` varchar(255), `created_at` datetime(6) NOT NULL, `updated_at` datetime(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mSET NAMES utf8mb4,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (2.7ms)[0m  [1m[34mSELECT GET_LOCK('7185080794970252580', 0)[0m
+  [1m[35m (2.5ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Migrating to CreatePosts (20200821054356)
+  [1m[35m (44.5ms)[0m  [1m[35mCREATE TABLE `posts` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `created_at` datetime(6) NOT NULL, `updated_at` datetime(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (2.6ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200821054356')[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddBodyToPosts (20200821054618)
+  [1m[35m (25.9ms)[0m  [1m[35mALTER TABLE `posts` ADD `body` text[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (1.0ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200821054618')[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to DeviseCreateUsers (20200821083919)
+  [1m[35m (42.4ms)[0m  [1m[35mCREATE TABLE `users` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `created_at` datetime(6) NOT NULL, `updated_at` datetime(6) NOT NULL)[0m
+  [1m[35m (30.8ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (29.5ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_users_on_reset_password_token`  ON `users` (`reset_password_token`) [0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200821083919')[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddUserIdToPosts (20200821085410)
+  [1m[35m (18.5ms)[0m  [1m[35mALTER TABLE `posts` ADD `user_id` int[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (1.5ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200821085410')[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddImageToPosts (20200822101621)
+  [1m[35m (18.5ms)[0m  [1m[35mALTER TABLE `posts` ADD `image` varchar(255)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (1.0ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200822101621')[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateLikes (20200822105000)
+  [1m[35m (53.4ms)[0m  [1m[35mCREATE TABLE `likes` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `post_id` bigint NOT NULL, `user_id` bigint NOT NULL, `created_at` datetime(6) NOT NULL, `updated_at` datetime(6) NOT NULL,  INDEX `index_likes_on_post_id`  (`post_id`),  INDEX `index_likes_on_user_id`  (`user_id`), CONSTRAINT `fk_rails_87a8aac469`
+FOREIGN KEY (`post_id`)
+  REFERENCES `posts` (`id`)
+, CONSTRAINT `fk_rails_1e09b5dabf`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+)[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200822105000')[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateComments (20200822110711)
+  [1m[35m (52.1ms)[0m  [1m[35mCREATE TABLE `comments` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `comment` varchar(255), `user_id` bigint NOT NULL, `post_id` bigint NOT NULL, `created_at` datetime(6) NOT NULL, `updated_at` datetime(6) NOT NULL,  INDEX `index_comments_on_user_id`  (`user_id`),  INDEX `index_comments_on_post_id`  (`post_id`), CONSTRAINT `fk_rails_03de2dc08c`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+, CONSTRAINT `fk_rails_2fd19c0db7`
+FOREIGN KEY (`post_id`)
+  REFERENCES `posts` (`id`)
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200822110711')[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddDetailsToUsers (20200822132530)
+  [1m[35m (22.2ms)[0m  [1m[35mALTER TABLE `users` ADD `name` varchar(255)[0m
+  [1m[35m (18.1ms)[0m  [1m[35mALTER TABLE `users` ADD `profile` text[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (1.1ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200822132530')[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddFishnameToPosts (20200824105432)
+  [1m[35m (28.5ms)[0m  [1m[35mALTER TABLE `posts` ADD `fishname` varchar(255)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200824105432')[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddLatitudeToPosts (20200824105910)
+  [1m[35m (20.4ms)[0m  [1m[35mALTER TABLE `posts` ADD `latitude` float(24)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (1.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200824105910')[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddLongitudeToPosts (20200824110133)
+  [1m[35m (20.2ms)[0m  [1m[35mALTER TABLE `posts` ADD `longitude` float(24)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200824110133')[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddSizeToPosts (20200825062106)
+  [1m[35m (21.0ms)[0m  [1m[35mALTER TABLE `posts` ADD `size` float(24)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200825062106')[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddNameToPosts (20200825065106)
+  [1m[35m (16.4ms)[0m  [1m[35mALTER TABLE `posts` ADD `name` varchar(255)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200825065106')[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddPlaceToPosts (20200828053015)
+  [1m[35m (15.4ms)[0m  [1m[35mALTER TABLE `posts` ADD `place` varchar(255)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200828053015')[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddColumnsToUsers (20200828054437)
+  [1m[35m (16.1ms)[0m  [1m[35mALTER TABLE `users` ADD `postcode` int[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200828054437')[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddColumnsToPosts (20200828054916)
+  [1m[35m (14.3ms)[0m  [1m[35mALTER TABLE `posts` ADD `postcode` int[0m
+  [1m[35m (17.4ms)[0m  [1m[35mALTER TABLE `posts` ADD `prefecture_code` int[0m
+  [1m[35m (15.1ms)[0m  [1m[35mALTER TABLE `posts` ADD `address_city` varchar(255)[0m
+  [1m[35m (17.6ms)[0m  [1m[35mALTER TABLE `posts` ADD `address_street` varchar(255)[0m
+  [1m[35m (15.8ms)[0m  [1m[35mALTER TABLE `posts` ADD `address_building` varchar(255)[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200828054916')[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddDateToPosts (20200828062024)
+  [1m[35m (17.0ms)[0m  [1m[35mALTER TABLE `posts` ADD `date` datetime[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200828062024')[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddBasyoToPosts (20200831100726)
+  [1m[35m (17.0ms)[0m  [1m[35mALTER TABLE `posts` ADD `basyo` varchar(255)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20200831100726')[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.0ms)[0m  [1m[32mINSERT INTO `ar_internal_metadata` (`key`, `value`, `created_at`, `updated_at`) VALUES ('environment', 'development', '2020-09-13 08:24:32.872693', '2020-09-13 08:24:32.872693')[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT RELEASE_LOCK('7185080794970252580')[0m
+  [1m[35m (1.1ms)[0m  [1m[35mSET NAMES utf8mb4,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Started GET "/" for ::1 at 2020-09-13 17:26:36 +0900
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8mb4,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by HelloController#index as HTML
+  Rendering hello/index.html.erb within layouts/application
+  Rendered hello/index.html.erb within layouts/application (Duration: 6917.6ms | Allocations: 209622)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 7791ms (Views: 7730.0ms | ActiveRecord: 0.0ms | Allocations: 320313)
+
+
+Started GET "/posts/new" for ::1 at 2020-09-13 17:26:49 +0900
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 3ms (ActiveRecord: 0.0ms | Allocations: 434)
+
+
+Started GET "/users/sign_in" for ::1 at 2020-09-13 17:26:49 +0900
+Processing by Devise::SessionsController#new as HTML
+  Rendering users/sessions/new.html.erb within layouts/application
+  Rendered users/shared/_links.html.erb (Duration: 53.7ms | Allocations: 610)
+  Rendered users/sessions/new.html.erb within layouts/application (Duration: 209.0ms | Allocations: 12675)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 375ms (Views: 317.6ms | ActiveRecord: 31.6ms | Allocations: 50685)
+
+
+Started GET "/users/sign_up" for ::1 at 2020-09-13 17:26:54 +0900
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering users/registrations/new.html.erb within layouts/application
+  Rendered users/shared/_error_messages.html.erb (Duration: 15.5ms | Allocations: 206)
+  Rendered users/shared/_links.html.erb (Duration: 0.4ms | Allocations: 115)
+  Rendered users/registrations/new.html.erb within layouts/application (Duration: 161.8ms | Allocations: 11402)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 267ms (Views: 265.7ms | ActiveRecord: 0.0ms | Allocations: 40552)
+
+
+Started POST "/users" for ::1 at 2020-09-13 17:27:10 +0900
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"8mXbTFqmVPfnL8p5CvlbzRC5giNM4ocjZeuG9cTwQTUJBj+3JhMX+R/x+Njg7KoDlp8EeCqNbeANyDGvUOtqFA==", "user"=>{"name"=>"かける", "email"=>"kakeru0520sou1@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"新規登録"}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (36.5ms)[0m  [1m[34mSELECT 1 AS one FROM `users` WHERE `users`.`email` = BINARY 'kakeru0520sou1@gmail.com' LIMIT 1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO `users` (`email`, `encrypted_password`, `created_at`, `updated_at`, `name`) VALUES ('kakeru0520sou1@gmail.com', '$2a$12$l30p2YEdfTQq5UKL0otROesAsn/PEewR/CgL/EKlZdRJPWYJheDTm', '2020-09-13 08:27:10.643119', '2020-09-13 08:27:10.643119', 'かける')[0m
+  [1m[35m (7.5ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/posts/new
+Completed 302 Found in 558ms (ActiveRecord: 44.9ms | Allocations: 11947)
+
+
+Started GET "/posts/new" for ::1 at 2020-09-13 17:27:10 +0900
+Processing by PostsController#new as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/new.html.erb within layouts/application (Duration: 191.4ms | Allocations: 16070)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 400ms (Views: 284.3ms | ActiveRecord: 26.0ms | Allocations: 62976)
+
+
+Started POST "/posts" for ::1 at 2020-09-13 17:28:10 +0900
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"QnbvYfAg9k5yHhi1YDunF3rzqBGLMCs0Y0NEKya69jdLOCkejUMVKxEzcKuxBwz561mZP67/6KO2CNIhH0v6zg==", "post"=>{"fishname"=>"すずき", "size"=>"123", "basyo"=>"島", "date(1i)"=>"2020", "date(2i)"=>"9", "date(3i)"=>"13", "date(4i)"=>"08", "date(5i)"=>"27", "body"=>"", "latitude"=>"33.67777134562048", "longitude"=>"130.21868211505128"}, "commit"=>"送信"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:23:in `create'
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/posts_controller.rb:23:in `create'
+  [1m[36mPost Create (2.4ms)[0m  [1m[32mINSERT INTO `posts` (`created_at`, `updated_at`, `body`, `user_id`, `fishname`, `latitude`, `longitude`, `size`, `date`, `basyo`) VALUES ('2020-09-13 08:28:10.289506', '2020-09-13 08:28:10.289506', '', 1, 'すずき', 33.67777134562048, 130.21868211505128, 123.0, '2020-09-13 08:27:00', '島')[0m
+  ↳ app/controllers/posts_controller.rb:23:in `create'
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/posts_controller.rb:23:in `create'
+Redirected to http://localhost:3000/posts
+Completed 302 Found in 111ms (ActiveRecord: 7.4ms | Allocations: 9628)
+
+
+Started GET "/posts" for ::1 at 2020-09-13 17:28:10 +0900
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35m (5.4ms)[0m  [1m[34mSELECT `likes`.`post_id` FROM `likes` GROUP BY `likes`.`post_id` ORDER BY count(post_id) desc LIMIT 3[0m
+  ↳ app/controllers/posts_controller.rb:12:in `index'
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.9ms)[0m  [1m[34mSELECT DISTINCT `posts`.`fishname` FROM `posts`[0m
+  ↳ app/views/posts/index.html.erb:28
+  [1m[35m (2.5ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM `posts` ORDER BY `posts`.`id` DESC LIMIT 5 OFFSET 0) subquery_for_count[0m
+  ↳ app/views/posts/index.html.erb:33
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `posts`[0m
+  ↳ app/views/posts/index.html.erb:33
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` ORDER BY `posts`.`id` DESC LIMIT 5 OFFSET 0[0m
+  ↳ app/views/posts/index.html.erb:35
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/index.html.erb:40
+  [1m[35m (3.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/index.html.erb:46
+  Rendered posts/index.html.erb within layouts/application (Duration: 391.0ms | Allocations: 26826)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 554ms (Views: 493.6ms | ActiveRecord: 38.7ms | Allocations: 57895)
+
+
+Started GET "/posts/rank/%E3%81%99%E3%81%9A%E3%81%8D" for ::1 at 2020-09-13 17:28:18 +0900
+Processing by PostsController#rank as HTML
+  Parameters: {"name"=>"すずき"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendering posts/rank.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`fishname` = 'すずき' ORDER BY `posts`.`size` DESC[0m
+  ↳ app/views/posts/rank.html.erb:9
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/rank.html.erb:15
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/rank.html.erb:17
+  Rendered posts/rank.html.erb within layouts/application (Duration: 101.8ms | Allocations: 12701)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 201ms (Views: 191.3ms | ActiveRecord: 1.9ms | Allocations: 42458)
+
+
+Started GET "/posts/1" for ::1 at 2020-09-13 17:28:20 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/posts_controller.rb:36:in `show'
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/show.html.erb:7
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `likes` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:17
+  [1m[36mLike Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM `likes` WHERE `likes`.`user_id` = 1 AND `likes`.`post_id` = 1 LIMIT 1[0m
+  ↳ app/models/user.rb:7:in `already_liked?'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT `users`.* FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:27
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT `comments`.* FROM `comments` WHERE `comments`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:33
+  Rendered posts/show.html.erb within layouts/application (Duration: 164.4ms | Allocations: 16780)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 335ms (Views: 273.8ms | ActiveRecord: 28.2ms | Allocations: 55776)
+
+
+Started GET "/posts" for ::1 at 2020-09-13 17:28:27 +0900
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT `likes`.`post_id` FROM `likes` GROUP BY `likes`.`post_id` ORDER BY count(post_id) desc LIMIT 3[0m
+  ↳ app/controllers/posts_controller.rb:12:in `index'
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT DISTINCT `posts`.`fishname` FROM `posts`[0m
+  ↳ app/views/posts/index.html.erb:28
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM `posts` ORDER BY `posts`.`id` DESC LIMIT 5 OFFSET 0) subquery_for_count[0m
+  ↳ app/views/posts/index.html.erb:33
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `posts`[0m
+  ↳ app/views/posts/index.html.erb:33
+  [1m[36mPost Load (0.7ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` ORDER BY `posts`.`id` DESC LIMIT 5 OFFSET 0[0m
+  ↳ app/views/posts/index.html.erb:35
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/index.html.erb:40
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/index.html.erb:46
+  Rendered posts/index.html.erb within layouts/application (Duration: 28.0ms | Allocations: 10224)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 133ms (Views: 120.4ms | ActiveRecord: 4.3ms | Allocations: 40165)
+
+
+Started GET "/posts/1/edit" for ::1 at 2020-09-13 17:28:46 +0900
+Processing by PostsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[36mPost Load (1.7ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/posts_controller.rb:43:in `edit'
+  Rendering posts/edit.html.erb within layouts/application
+  Rendered posts/edit.html.erb within layouts/application (Duration: 180.4ms | Allocations: 13665)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 312ms (Views: 284.8ms | ActiveRecord: 2.8ms | Allocations: 43976)
+
+
+Started GET "/posts/1" for ::1 at 2020-09-13 17:28:53 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/posts_controller.rb:36:in `show'
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/show.html.erb:7
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `likes` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:17
+  [1m[36mLike Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM `likes` WHERE `likes`.`user_id` = 1 AND `likes`.`post_id` = 1 LIMIT 1[0m
+  ↳ app/models/user.rb:7:in `already_liked?'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT `users`.* FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:27
+  [1m[36mComment Load (0.6ms)[0m  [1m[34mSELECT `comments`.* FROM `comments` WHERE `comments`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:33
+  Rendered posts/show.html.erb within layouts/application (Duration: 29.6ms | Allocations: 8036)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 145ms (Views: 136.1ms | ActiveRecord: 3.5ms | Allocations: 38528)
+
+
+Started POST "/posts/1/likes" for ::1 at 2020-09-13 17:28:54 +0900
+Processing by LikesController#create as HTML
+  Parameters: {"authenticity_token"=>"QPjNiigooPlKEN3IpPG/C3psN5Ye6/wvzdLDiZVWXpj1kbiteKnexHTwfs+krB7EQ8nlHiKKaOKcTvKdPRl/5A==", "post_id"=>"1"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  ↳ app/controllers/likes_controller.rb:3:in `create'
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/likes_controller.rb:3:in `create'
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/likes_controller.rb:3:in `create'
+  [1m[36mLike Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM `likes` WHERE `likes`.`post_id` = 1 AND `likes`.`user_id` = 1 LIMIT 1[0m
+  ↳ app/controllers/likes_controller.rb:3:in `create'
+  [1m[36mLike Create (0.6ms)[0m  [1m[32mINSERT INTO `likes` (`post_id`, `user_id`, `created_at`, `updated_at`) VALUES (1, 1, '2020-09-13 08:28:54.478236', '2020-09-13 08:28:54.478236')[0m
+  ↳ app/controllers/likes_controller.rb:3:in `create'
+  [1m[35m (3.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/likes_controller.rb:3:in `create'
+Redirected to http://localhost:3000/posts/1
+Completed 302 Found in 33ms (ActiveRecord: 5.7ms | Allocations: 7726)
+
+
+Started GET "/posts/1" for ::1 at 2020-09-13 17:28:54 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/posts_controller.rb:36:in `show'
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/show.html.erb:7
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `likes` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:17
+  [1m[36mLike Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM `likes` WHERE `likes`.`user_id` = 1 AND `likes`.`post_id` = 1 LIMIT 1[0m
+  ↳ app/models/user.rb:7:in `already_liked?'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT `users`.* FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:27
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT `comments`.* FROM `comments` WHERE `comments`.`post_id` = 1[0m
+  ↳ app/views/posts/show.html.erb:33
+  Rendered posts/show.html.erb within layouts/application (Duration: 32.7ms | Allocations: 8125)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 131ms (Views: 121.4ms | ActiveRecord: 4.3ms | Allocations: 38611)
+
+
+Started GET "/posts" for ::1 at 2020-09-13 17:28:59 +0900
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `likes`.`post_id` FROM `likes` GROUP BY `likes`.`post_id` ORDER BY count(post_id) desc LIMIT 3[0m
+  ↳ app/controllers/posts_controller.rb:12:in `index'
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` WHERE `posts`.`id` = 1 LIMIT 1[0m
+  ↳ app/controllers/posts_controller.rb:12:in `index'
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  ↳ app/views/posts/index.html.erb:21
+  [1m[36mPost Load (1.5ms)[0m  [1m[34mSELECT DISTINCT `posts`.`fishname` FROM `posts`[0m
+  ↳ app/views/posts/index.html.erb:28
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM `posts` ORDER BY `posts`.`id` DESC LIMIT 5 OFFSET 0) subquery_for_count[0m
+  ↳ app/views/posts/index.html.erb:33
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `posts`[0m
+  ↳ app/views/posts/index.html.erb:33
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT `posts`.* FROM `posts` ORDER BY `posts`.`id` DESC LIMIT 5 OFFSET 0[0m
+  ↳ app/views/posts/index.html.erb:35
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/posts/index.html.erb:40
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `users` INNER JOIN `likes` ON `users`.`id` = `likes`.`user_id` WHERE `likes`.`post_id` = 1[0m
+  ↳ app/views/posts/index.html.erb:46
+  Rendered posts/index.html.erb within layouts/application (Duration: 37.1ms | Allocations: 10977)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 136ms (Views: 122.5ms | ActiveRecord: 6.2ms | Allocations: 41690)
+
+
