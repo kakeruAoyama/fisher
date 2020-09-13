@@ -1,12 +1,18 @@
+<%= stylesheet_link_tag 'hello', :media => "all" %>
 <body>
 <section id="first-block"> 
 <div class="title-container">
-      <h1>fishapp</h1>
-      <h3>~ すべての釣り人のために ~</h3>
+      <h6>fishapp</h6>
+      <h7>~ すべての釣り人のために ~</h7>
     </div>
 </section>
-    <section id="second-block">
-    </section>
-<%= link_to "ログイン", posts_path %>
+
+<section id="second-block">
+<div class="login-container">
+ <%= link_to "ログイン", posts_path %>
+</div>
+<div class="new1-container">
 <%= link_to "新規登録", new_user_registration_path %>
+</div>
+</section>
 </body>

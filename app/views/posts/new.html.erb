@@ -1,54 +1,58 @@
 <%= stylesheet_link_tag 'new', :media => "all" %>
 
 <div class="post-container">
+    <br>
     <p class="title">投稿フォーム</p>
     <%= form_for(@post, :url => { controller:'posts', action:'create'})do |f| %>
-    　　<%= f.label :魚の名前 %>
+        <br>
+        <%= f.label :魚の種類 %>
         <br>
         <%= f.text_field :fishname,size: 140%>
         <br>
-        <%= f.label :魚のサイズ %>
+        <%= f.label :魚のサイズCMかGRAM %>
         <br>
-        <%= f.text_field :size,size: 140%>
+        <%= f.number_field :size, step: "0.1",size: 200 %>
+        <br>
+        <br>
+        <%= f.label :釣果場所 %>
+        <br>
+        <%= f.text_field :basyo,size: 140%>
         <br>
         <%= f.label :釣果日時 %>
         <br>
         <%= f.datetime_select :date,{:use_month_numbers => true} %>
         <br>
-        <%= f.label :投稿内容 %>
+        <%= f.label :ひとこと %>
         <br>
         <%= f.text_field :body,size: 140%>
         <br>
         <%= f.label :緯度 %>
         <br>
-        <%= f.text_field :latitude,size: 140, id: :latitude%>
+        <%= f.text_field :latitude,:value =>"下のグーグルマップのピンを動かしてね",size: 140, id: :latitude%>
         <br>
         <%= f.label :経度 %>
         <br>
-        <%= f.text_field :longitude,size: 140, id: :longitude%>
+        <%= f.text_field :longitude,:value =>"下のグーグルマップのピンを動かしてね",size: 140, id: :longitude%>
         <br>
         <div class="field">
         <%= f.label :image %>
         <%= f.file_field :image %>
         </div>
-    <%= f.submit "送信"%>
+    <%= f.submit "送信", class: "btn btn-primary"%>
     <br>
     <% end %>
 </div>
 
-<h2>gmap</h2>
+<p1>ピンを釣れた場所まで動かしてね↓</p>
 
-<input id="address" type="textbox" value="GeekSalon">
-<input type="button" value="Encode" onclick="codeAddress()">
-<!-- 下の1行を追加 -->
-<div id="display">何かが表示される、、、、！</div>
+
 
 <div id='map'></div>
 
 <style>
 #map {
   height: 600px;
-  width: 600px;
+  width: 100%;
 }
 </style>
 

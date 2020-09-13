@@ -1,29 +1,46 @@
 // Place all the styles related to the hello controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+body {
+  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ",
+    Meiryo, "ＭＳ Ｐゴシック", sans-serif;
+}
+
 #first-block {
-    background-image: image-url("fish1.jpg");
-    background-size: cover;
-    width: 100%;
-    height: 700px;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-image: image-url("fish5.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 700px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-container {
+  text-align: center;
+}
+
+h6 {
+  color: white;
+  font-size: 70px;
+  letter-spacing: 10px;
   }
-  
-  .title-container {
-    text-align: center;
-  }
-  
-  h1 {
-    font-size: 80px;
-    font-family: serif;
-    color: #ffffff;
-  }
-  
-  h3 {
-    font-size: 50px;
-    font-family: serif;
-    color: #ffffff;
-  }
+
+ h7 {
+  font-size: 30px;
+  font-family: serif;
+  color: white;
+  letter-spacing: 20px;
+ }
+
+ #second-block{
+  font-size: 30px;
+ }
+
+ .login-container {
+  margin: 30px ;
+}
+.new1-container {
+  margin: 30px ;
+}

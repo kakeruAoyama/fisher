@@ -52,3 +52,5 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 5
+  username: fisher
+  password: <%= ENV['FISHER_DATABASE_PASSWORD'] %>

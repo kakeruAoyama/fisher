@@ -1,5 +1,26 @@
+<%= stylesheet_link_tag 'edit', :media => "all" %>
+<div class="post-edit">
 <%= form_for @post do |f| %>
-    <%= f.label :body %>
+    <%= f.label :魚の種類 %>
+    <br>
+    <%= f.text_field :fishname,size: 140%>
+    <br>
+    <%= f.label :魚のサイズCMかGRAM %>
+    <br>
+    <%= f.number_field :size, step: "0.1",size: 200 %>
+    <br>
+    <%= f.label :釣果場所 %>
+    <br>
+    <%= f.text_field :basyo,size: 140%>
+    <br>
+    <%= f.label :釣果日時 %>
+    <br>
+    <%= f.datetime_select :date,{:use_month_numbers => true} %>
+    <br>
+    <%= f.label :ひとこと %>
+    <br>
     <%= f.text_field :body, :size => 140 %> 
-    <%= f.submit "編集する" %>
+    <br>
+    <%= f.submit "編集する", class: "btn btn-primary" %>
 <% end %>
+</div>

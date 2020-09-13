@@ -1,18 +1,24 @@
+<%= stylesheet_link_tag 'show', :media => "all" %>
+
 <h2>詳細</h2>
 
-<div class="post">
-  <p><%= @post.user.name %></p>
-  <h3>釣果日時</h3>
-  <h3><%= @post.date %></h3>
-  <h3><%= @post.fishname %><%= @post.size %></h3>
-  <h3><%= @post.body %></h3>
+<div class="post-show">
+<div class="post-show1">
+  <h3>釣り人：<%= @post.user.name %></h3>
+  <h3>釣果日時：<%= @post.date %></h3>
+  <h3>釣れた場所：<%= @post.basyo %></h3>
+  <h3>釣れた魚：<%= @post.fishname %><%= @post.size %></h3>
+  <h3>サイズ:<%= @post.size %>cm or gram</h3>
+  <h3>ひとこと：<%= @post.body %></h3>
+</div>
+
   <%= image_tag @post.image_url, size: "250x200" if @post.image?%>
   
   <h3>いいね件数: <%= @post.likes.count %></h3>
   <% if current_user.already_liked?(@post) %>
-    <%= button_to 'いいねを取り消す', post_like_path(@post), method: :delete %>
+    <%= button_to 'いいねを取り消す', post_like_path(@post), method: :delete,class:"btn btn-default" %>
   <% else %>
-    <%= button_to 'いいね', post_likes_path(@post) %>
+    <%= button_to 'いいね', post_likes_path(@post),class:"btn btn-danger" %>
   <% end %>
 
 </div>
@@ -49,7 +55,7 @@
 <style>
 #map {
   height: 600px;
-  width: 600px;
+  width: 100%;
 }
 </style>
 

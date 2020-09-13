@@ -1,14 +1,55 @@
+body {
+    font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ",
+      Meiryo, "ＭＳ Ｐゴシック", sans-serif;
+  }
+
+#first-block {
+    background-image: image-url("fish5.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 1000px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .title-container {
+    text-align: center;
+  }
+  
+   h6 {
+    color: white;
+    font-size: 70px;
+    letter-spacing: 10px;
+    }
+  
+   h7 {
+    font-size: 30px;
+    font-family: serif;
+    color: white;
+    letter-spacing: 20px;
+   }
+
 .tweets-container {
     width: 50%;
     margin: 10px auto;
   }
-  h3 {
-    margin-bottom: 30px;
+  .left-container h3 {
+    margin: 30px ;
   }
+
+  .center-container{
+background: #ececec; /* 背景の色を指定する */
+width: 450px; /* 要素の横幅を指定する */
+margin: 10px auto; 
+  }
+
   .tweet {
-    border-top: solid #6effdb;
+    border: solid #d8d8d8;
     margin-top: 10px;
     padding-top: 20px;
+    
   }
   .main-box {
     margin: 5px 0;
@@ -19,3 +60,5 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  

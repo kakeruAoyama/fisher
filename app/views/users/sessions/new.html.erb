@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag 'login', :media => "all" %>
+<div class="post-login">
 <h2>ログイン</h2>
 <p>※登録したメールアドレスとパスワードを入力してください。</p>
 
@@ -20,9 +22,10 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit "ログイン", class: "btn btn-primary" %>
   </div>
 <% end %>
+</div>
 
 <%= render "users/shared/links" %>
 

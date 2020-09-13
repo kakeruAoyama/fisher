@@ -1,20 +1,22 @@
-<%= @fishname %>のサイズランキング
+<%= stylesheet_link_tag 'rank', :media => "all" %>
 
-<% @fish.each.with_index(1) do |t,i| %>
-  <div class="post">
-  第
-  <%= i%>
-  位
-      <%= t.size %>
-      <%= t.user.name %>
-      <%= t.body %>
-      (♡<%= t.liked_users.count %>)
-      <%= link_to "詳細へ", post_path(t.id) %>
-<% end %>
 
-<%=  %>
-<%=  %>
-<%=  %>
-<%=  %>
-<%=  %>
-<%=  %>
+<body>
+<section id="second-block"> 
+ <div class="title-container">
+ <h1><%= @fishname %>のサイズランキング</h1>
+ <br>
+ <% @fish.each.with_index(1) do |t,i| %>
+    <h3><div class="post">
+    第
+    <%= i%>
+    位
+        <%= t.size %>
+        <%= t.user.name %>
+        <%= t.basyo %>
+        (♡<%= t.liked_users.count %>)
+        <%= link_to "詳細へ", post_path(t.id) %>
+  <% end %></h3>
+ </div>
+</section>
+</body>

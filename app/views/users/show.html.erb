@@ -1,4 +1,4 @@
-<h1>マイページ</h1>
+<h1><%= @user.name %></h1>
 <p>名前 : <%= @user.name %></p>
 <p>メールアドレス : <%= @user.email %></p>
 <p>プロフィール : <%= @user.profile %></p>
@@ -6,17 +6,32 @@
 <% if current_user.id == @user.id %>
   <%= link_to "編集する", edit_user_registration_path %>
 <% end %>
-
-<p>これまでの釣果</p>
-<% @user.posts.each do |t| %>
-  <br>
-  <%= t.fishname %>
-  <%= t.size %>
-  <%= t.body %>
-  <%= link_to "詳細へ", post_path(t.id) %>
-<% end %>
 <br>
-<%= link_to "投稿一覧に戻る", posts_path %>
+<h3>これまでの釣果</h3>
+
+<%= page_entries_info @posts %>
+<div class="posts-container">
+  <% @user.posts.each do |t| %>
+    <div class="tweet">
+        <div class="main-box">
+        <div class="left-container"><%= image_tag t.image_url, size: "250x200" if t.image? %></div>
+        <div class="center-container"><h4>釣れた場所:<%= t.basyo %></h4><h4>釣果日時:<%= t.date %></h4><h4>魚の名前:<%= t.fishname %></h4><h4>ひとこと:<%= t.body %></h4><%= link_to "詳細へ", post_path(t.id),class:"btn btn-warning" %><br></div>
+        <div class=right-container>
+      <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+      <% if user_signed_in? && current_user.id == t.user_id %> 
+      <%= t.body %>
+      (♡<%= t.liked_users.count %>)
+      <%= link_to "詳細へ", post_path(t.id) %>  
+      <%= link_to "編集する", edit_post_path(t.id) %>
+      <%= button_to "削除する", post_path(t.id), method: :delete,class:"btn btn-default" %>
+      <% end %> 
+    </div>
+    </div>
+        <p class="time"><%= t.created_at %></p>
+    </div>
+  <% end %>
+</div>
+<%= paginate @posts %>
 
 <h2>個人釣果状況</h2>
 
@@ -25,7 +40,7 @@
 <style>
 #map {
   height: 600px;
-  width: 600px;
+  width: 100%;
 }
 </style>
 
@@ -34,7 +49,7 @@
     function initMap() {
 
       //初期表示位置
-      var latlng = new google.maps.LatLng(36.30, 139.5);
+      var latlng = new google.maps.LatLng(38.60, 139.5);
       //デザイン
       var styles = [
            {
@@ -46,7 +61,7 @@
           ];
 
       var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
+          zoom: 5.5,
           styles: styles,
           center: latlng
       });

@@ -2,12 +2,12 @@ class PostsController < ApplicationController
     before_action :authenticate_user!
     def index
         if params[:search] == nil
-            @posts= Post.all.page(params[:page]).per(5)
+            @posts= Post.all.order(id: "desc").page(params[:page]).per(5)
         elsif params[:search] == ''
-            @posts= Post.all.page(params[:page]).per(5)
+            @posts= Post.all.order(id: "desc").page(params[:page]).per(5)
         else
             #部分検索
-            @posts = Post.where("body LIKE ? ",'%' + params[:search] + '%').page(params[:page]).per(5)
+            @posts = Post.where("body LIKE ? ",'%' + params[:search] + '%').or(Post.where("fishname LIKE ? ", "%" + params[:search] + "%")).or(Post.where("basyo LIKE ? ", "%" + params[:search] + "%")).page(params[:page]).per(5)
         end
         @all_ranks = Post.find(Like.group(:post_id).order('count(post_id) desc').limit(3).pluck(:post_id))
         @fishname = Post.select(:fishname).distinct
@@ -59,6 +59,6 @@ class PostsController < ApplicationController
 
     private
     def post_params
-        params.require(:post).permit(:body,:image,:fishname,:latitude,:longitude,:size,:name,:postcode, :prefecture_name, :address_city, :address_street, :address_building,:date)
+        params.require(:post).permit(:body,:image,:fishname,:latitude,:longitude,:size,:name,:postcode, :prefecture_name, :address_city, :address_street, :address_building,:date,:basyo)
     end
 end
